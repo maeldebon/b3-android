@@ -15,7 +15,13 @@ class MainActivity : AppCompatActivity() {
 
         this.btn_insert.setOnClickListener {
             if(etvEuid.text.toString().isNotEmpty()) {
-                val entry = Entry(etvEuid.text.toString().toInt())
+                val entry = Entry(
+                    etvEuid.text.toString().toInt(),
+                    "Name", // TODO replace by real vehicle name
+                    "Image", // TODO replace by real vehicle image
+                    9, // TODO replace by real vehicle prixjournalierbase
+                    "G" // TODO replace by real vehicle categorieco2
+                )
                 db.insertData(entry)
             } else {
                 Toast.makeText(context, "Test", Toast.LENGTH_SHORT).show()
@@ -26,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             var data = db.readData()
             tvResult.text = ""
             for (i in 0 until data.size) {
-                tvResult.append(data[i].euid.toString())
+                tvResult.append(data[i].nom.toString() + " " + data[i].prixjournalierbase.toString() + "$ " + data[i].categorieco2.toString())
             }
         }
 
