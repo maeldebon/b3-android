@@ -11,15 +11,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val context = this
+        val db = DatabaseHandler(context)
 
         this.btn_insert.setOnClickListener {
             if(etvEuid.text.toString().isNotEmpty()) {
                 val entry = Entry(etvEuid.text.toString().toInt())
-                val db = DatabaseHandler(context)
                 db.insertData(entry)
             } else {
                 Toast.makeText(context, "Test", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        btn_read.setOnClickListener {
+            var data = db.readData()
+            tvResult.text = ""
+            for (i in 0 until data.size) {
+                tvResult.append(data[i].euid.toString())
+            }
+        }
+
+        btn_delete.setOnClickListener {
+            db.deleteData(1)
+            btn_read.performClick()
         }
     }
 }

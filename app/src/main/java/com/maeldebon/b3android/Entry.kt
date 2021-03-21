@@ -7,4 +7,7 @@ class Entry {
     constructor(euid:Int) {
         this.euid = euid
     }
+
+    constructor() {
+    }
 }

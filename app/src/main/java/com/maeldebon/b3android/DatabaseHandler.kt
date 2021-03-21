@@ -40,10 +40,25 @@ class DatabaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         val db = this.readableDatabase
         val query = "SELECT * FROM $TABLE_NAME"
         val result = db.rawQuery(query, null)
-        if(result.moveToFirst())
+        if(result.moveToFirst()) {
+            do {
+                var entry = Entry()
+                entry.id = result.getString(result.getColumnIndex((COL_ID))).toInt()
+                entry.euid = result.getString(result.getColumnIndex((COL_EUID))).toInt()
+                // entry.name = result.getString(1)
+
+                list.add(entry)
+            } while (result.moveToNext())
+        }
 
         result.close()
         db.close()
         return list
+    }
+
+    fun deleteData(idToDelete : Int) {
+        val db = this.writableDatabase
+        db.delete(TABLE_NAME, COL_ID+"=?", arrayOf((idToDelete.toString())))
+        db.close()
     }
 }
